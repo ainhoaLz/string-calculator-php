@@ -20,35 +20,70 @@ final class StringCalculatorTest extends TestCase
     /**
      * @test
      */
-    public function givenEmptyStringReturnsZero(): void{
+    public function givenEmptyStringReturnsZero(): void
+    {
         $this->assertEquals(0, $this->stringCalculator->Add(''));
 
     }
     /**
      * @test
      */
-    public function givenSingleNumberReturnsSameNumber(): void{
+    public function givenAnyNumberReturnsSameNumber(): void
+    {
         $this->assertEquals(1, $this->stringCalculator->Add('1'));
     }
 
     /**
      * @test
      */
-    public function givenTwoNumbersReturnsAddition(): void{
-        $this->assertEquals(3, $this->stringCalculator->Add('1,2'));
-    }
-
-    /**
-     * @test
-     */
-    public function givenNumbersSeparatedByCommasReturnsSumOfNumbers(): void{
+    public function givenNumbersSeparatedByCommasReturnsSumOfNumbers(): void
+    {
         $this->assertEquals(7, $this->stringCalculator->Add('1,2,3,1'));
     }
 
     /**
      * @test
      */
-    public function givenNumbersSeparatedByCommasAndLineBreakReturnsSumOfNumbers(): void{
+    public function givenNumbersSeparatedByCommasAndLineBreakReturnsSumOfNumbers(): void
+    {
         $this->assertEquals(6, $this->stringCalculator->Add('1\n2,3'));
     }
+
+    /**
+     * @test
+     */
+    public function givenInvalidStringWithConsecutiveComaAndBreakRowReturnsSumOfNumbers(): void
+    {
+        $this->assertEquals(1, $this->stringCalculator->Add('1,\n'));
+    }
+
+    /**
+     * @test
+     */
+    public function givenStringWithSemicolonDelimiterReturnsSum(): void
+    {
+        $this->assertEquals(3, $this->stringCalculator->Add('//;\n1;2'));
+    }
+
+    /**
+     * @test
+     */
+    public function givenStringWithAmpersandReturnsSum(): void
+    {
+        $this->assertEquals(3, $this->stringCalculator->Add('//&\n1&2'));
+    }
+
+    /**
+     * @test
+     */
+    public function givenOneNegativeNumberThrowsException(): void
+    {
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Negativos no soportados');
+
+        $this->stringCalculator->Add('-1');
+
+    }
+
 }
